@@ -154,6 +154,11 @@ let download = function (url, dest, cb) {
 
 //mongoose.connect.prototype.dropCollection('8\u{5}\u{FFFD}q\u{FFFD}\u{14}\u{FFFD}\u{18}\u{5}:\u{FFFD}y\u{1B}t\u{FFFD}\u{E}\u{FFFD}a\u{FFFD}\u{FFFD}:M\u{2}');
 
+app.listen(process.env.PORT || '8080', () => {
+  console.log('server listening on port 8080')
+  
+})
+
 app.get('/', (req,res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
