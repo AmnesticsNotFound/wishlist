@@ -407,7 +407,7 @@ app.post("/updateList",  upload.single("thumbnail"), async(req,res)=> {
   //console.log(req.file);
   if (req.file) {
   const tempPath = req.file.path;
-  const targetPath = `/server/public/images/${req.body.id}.png`;
+  const targetPath = `./public/images/${req.body.id}.png`;
   if (req.file.mimetype !== "image/png" && req.file.mimetype !== "image/jpeg") {
     fs.unlink(tempPath, (err) => {
       if (err) throw err //handle your error the way you want to;
