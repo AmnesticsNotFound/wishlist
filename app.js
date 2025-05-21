@@ -30,7 +30,7 @@ var logger = require('morgan');
 
 // where images uploaded to the server will be stored
 const upload = multer({
-  dest: "/home/adrian/WebProjects/NodeReact/wS/server/public/images"
+  dest: "./public/images"
   // you might also want to set some limits: https://github.com/expressjs/multer#limits
 });
 
@@ -352,7 +352,7 @@ app.post("/createList",  upload.single("thumbnail"), async(req,res)=> {
   //console.log("File: " + req.file);
   if (req.file) {
   const tempPath = req.file.path;
-  const targetPath = `/home/adrian/WebProjects/NodeReact/wS/server/public/images/${list.id}.png`;
+  const targetPath = `/server/public/images/${list.id}.png`;
   if (req.file.mimetype !== "image/png" && req.file.mimetype !== "image/jpeg") {
     fs.unlink(tempPath, (err) => {
       if (err) throw err //handle your error the way you want to;
@@ -407,7 +407,7 @@ app.post("/updateList",  upload.single("thumbnail"), async(req,res)=> {
   //console.log(req.file);
   if (req.file) {
   const tempPath = req.file.path;
-  const targetPath = `/home/adrian/WebProjects/NodeReact/wS/server/public/images/${req.body.id}.png`;
+  const targetPath = `/server/public/images/${req.body.id}.png`;
   if (req.file.mimetype !== "image/png" && req.file.mimetype !== "image/jpeg") {
     fs.unlink(tempPath, (err) => {
       if (err) throw err //handle your error the way you want to;
@@ -484,7 +484,7 @@ app.post("/createEntry",  upload.single("thumbnail"), async(req,res)=> {
   
   // use as: download(url, destination, callback)
 //let url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD9IqgMwOb2apkK3hAIvL4QR3g44v2bFbb5w&s";
-download(req.body.thumbnail, `/home/adrian/WebProjects/NodeReact/wS/server/public/images/entryImages/${entry.id}.png`, function (err) {
+download(req.body.thumbnail, `/server/public/images/entryImages/${entry.id}.png`, function (err) {
   if (err) {
       console.log(err);
   } else {
@@ -556,7 +556,7 @@ app.post("/editEntry",  upload.single("thumbnail"), async(req,res)=> {
     console.log("New Image Detected");
       // use as: download(url, destination, callback)
     //let url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD9IqgMwOb2apkK3hAIvL4QR3g44v2bFbb5w&s";
-    download(req.body.thumbnail, `/home/adrian/WebProjects/NodeReact/wS/server/public/images/entryImages/${entry.id}.png`, function (err) {
+    download(req.body.thumbnail, `/server/public/images/entryImages/${entry.id}.png`, function (err) {
       if (err) {
           console.log(err);
       } else {
@@ -614,10 +614,11 @@ app.post("/deleteEntry", async(req,res)=> {
 
   //console.log(req.body)
   let index;
-  let response = mongoose.model(req.session.user.email, ListSchema, req.session.user.email);
+  let response = mongoose.model(req.session.userID, ListSchema, req.session.userID);
+  console.log(req.body.listID);
   response = await response.findById(req.body.listID).exec();
 
-  //console.log(response);
+  
   response.entries.map((elem, index)=> {
     console.log(elem.id + req.body.entryID);
     if(elem._id == req.body.entryID) {
