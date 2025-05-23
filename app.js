@@ -352,7 +352,7 @@ app.post("/createList",  upload.single("thumbnail"), async(req,res)=> {
   //console.log("File: " + req.file);
   if (req.file) {
   const tempPath = req.file.path;
-  const targetPath = `/server/public/images/${list.id}.png`;
+  const targetPath = `./public/images/${list.id}.png`;
   if (req.file.mimetype !== "image/png" && req.file.mimetype !== "image/jpeg") {
     fs.unlink(tempPath, (err) => {
       if (err) throw err //handle your error the way you want to;
@@ -484,7 +484,7 @@ app.post("/createEntry",  upload.single("thumbnail"), async(req,res)=> {
   
   // use as: download(url, destination, callback)
 //let url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD9IqgMwOb2apkK3hAIvL4QR3g44v2bFbb5w&s";
-download(req.body.thumbnail, `/server/public/images/entryImages/${entry.id}.png`, function (err) {
+download(req.body.thumbnail, `./public/images/entryImages/${entry.id}.png`, function (err) {
   if (err) {
       console.log(err);
   } else {
@@ -495,7 +495,7 @@ download(req.body.thumbnail, `/server/public/images/entryImages/${entry.id}.png`
   /*console.log(req.file);
   if (req.file) {
   const tempPath = req.file.path;
-  const targetPath = `/home/adrian/WebProjects/NodeReact/wS/server/public/images/${req.file.originalname}`;
+  const targetPath = `/home/adrian/WebProjects/NodeReact/wS./public/images/${req.file.originalname}`;
   if (req.file.mimetype !== "image/png" && req.file.mimetype !== "image/jpeg") {
     fs.unlink(tempPath, (err) => {
       if (err) throw err //handle your error the way you want to;
@@ -556,7 +556,7 @@ app.post("/editEntry",  upload.single("thumbnail"), async(req,res)=> {
     console.log("New Image Detected");
       // use as: download(url, destination, callback)
     //let url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD9IqgMwOb2apkK3hAIvL4QR3g44v2bFbb5w&s";
-    download(req.body.thumbnail, `/server/public/images/entryImages/${entry.id}.png`, function (err) {
+    download(req.body.thumbnail, `./public/images/entryImages/${entry.id}.png`, function (err) {
       if (err) {
           console.log(err);
       } else {
@@ -570,7 +570,7 @@ app.post("/editEntry",  upload.single("thumbnail"), async(req,res)=> {
   /*console.log(req.file);
   if (req.file) {
   const tempPath = req.file.path;
-  const targetPath = `/home/adrian/WebProjects/NodeReact/wS/server/public/images/${req.file.originalname}`;
+  const targetPath = `/home/adrian/WebProjects/NodeReact/wS./public/images/${req.file.originalname}`;
   if (req.file.mimetype !== "image/png" && req.file.mimetype !== "image/jpeg") {
     fs.unlink(tempPath, (err) => {
       if (err) throw err //handle your error the way you want to;
