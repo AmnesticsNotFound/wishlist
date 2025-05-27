@@ -103,9 +103,7 @@ app.use(session({
   saveUninitialized: false,
   store:store,
   cookie: {
-      secure: false,
-      sameSite:'none',
-      secure:true,
+      secure: true,
       // Enable only for HTTPS
       httpOnly: false,
       maxAge:1000*60*60*24*7
