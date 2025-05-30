@@ -426,9 +426,9 @@ app.post("/updateList",  upload.single("thumbnail"), async(req,res)=> {
         
     });
   }
+  list.thumbnail = "/" + req.body.id + ".png"; 
 }
 
-req.body.thumbnail == undefined ? list.thumbnail = list.thumbnail : list.thumbnail = "/" + req.body.id + ".png"; 
 
 
   console.log(req.body);
