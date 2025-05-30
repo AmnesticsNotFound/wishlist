@@ -649,7 +649,7 @@ app.post("/deleteList", async(req,res)=> {
 
   //console.log(req.body)
 
-  let response = mongoose.model(req.session.user.email, ListSchema, req.session.user.email);
+  let response = mongoose.model(req.session.userID, ListSchema, req.session.userID);
   let list = await response.findById(req.body.listID).exec();
   
   //console.log(list.thumbnail);
