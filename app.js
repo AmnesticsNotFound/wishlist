@@ -119,7 +119,7 @@ app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Credentials', true);
   res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
   res.header("Access-Control-Allow-Origin", 'http://localhost:8080', 'https://wishlist-5uhp.onrender.com');
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Headers", "Content-Type, *");//"Origin, X-Requested-With, Content-Type, Accept, Authorization");
   next();
   });
 
@@ -154,10 +154,10 @@ let download = function (url, dest, cb) {
 
 //mongoose.connect.prototype.dropCollection('8\u{5}\u{FFFD}q\u{FFFD}\u{14}\u{FFFD}\u{18}\u{5}:\u{FFFD}y\u{1B}t\u{FFFD}\u{E}\u{FFFD}a\u{FFFD}\u{FFFD}:M\u{2}');
 
-app.listen(process.env.PORT || '8080', () => {
+/*app.listen(process.env.PORT || '8080', () => {
   console.log('server listening on port 8080')
   
-})
+})*/
 
 app.get('/', (req,res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
@@ -402,7 +402,6 @@ app.post("/updateList",  upload.single("thumbnail"), async(req,res)=> {
  
     list.name = req.body.name;
     list.description = req.body.description;
-    list.thumbnail == "default" ? list.thumbnail = "default" : list.thumbnail = "/" + req.body.id + ".png"; 
     
   //console.log(req.file);
   if (req.file) {
@@ -428,9 +427,9 @@ app.post("/updateList",  upload.single("thumbnail"), async(req,res)=> {
     });
   }
 }
-  
-    
-  
+
+req.body.thumbnail == undefined ? list.thumbnail = list.thumbnail : list.thumbnail = "/" + req.body.id + ".png"; 
+
 
   console.log(req.body);
   console.log("List: " + list)
