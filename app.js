@@ -159,6 +159,8 @@ let download = function (url, dest, cb) {
   
 })*/
 
+//the following gets are for sending the views from dist build. You would still be able to access these pages from links but with
+// these routes you now do not get a 404 error on refresh
 app.get('/', (req,res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
@@ -178,9 +180,12 @@ app.get("/list/:userID/:listID/entry/:entryID", async(req,res) => {
   res.sendFile(path.join(__dirname, './dist/index.html'));
 })
 
+
+
 app.post("/login", async(req,res) => {
   //console.log(req.body.codeResponse);
 
+  //contacting google login api
   console.log("Contacting Google....");
               const response = await axios
                   .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${req.body.codeResponse.access_token}`, {
@@ -191,11 +196,12 @@ app.post("/login", async(req,res) => {
                   })
 
                   //let Collection = mongoose.model(response.data.email, ListSchema, response.data.email);
-
+                  //if the user logs in, we begin the initialization process
                   if(response.status == 200) {
                     req.session.user = response.data;
                     
                     //console.log(req.session.user)
+                    // check if user is already registered, if not, we create a profile for them in the database
                   let user = await User.findOne({email: response.data.email}).exec();
                   if (!user) {
                     let newUser = new User({
@@ -211,6 +217,8 @@ app.post("/login", async(req,res) => {
                     console.log("New User Saved");
                   }
 
+                  //Here we log the user in after registering them if necessary
+                  // We store the mongo id for their profile in the session storage on mongo
                   req.session.userID = user._id.valueOf();
                   console.log("UserID: " + req.session.userID);
 
@@ -266,6 +274,8 @@ app.get("/pullData", async(req,res)=> {
   //response = await userList.find().exec();
   
     console.log("user found")
+    //the syntax is odd here for mongoose.model. This is used for database creation, but here I am using it to check-
+    // if the database exists or not. If it exists, it will return a model for it, else it will make a new model?
       let response = mongoose.model(req.session.userID, ListSchema, req.session.userID);
       response = await response.find().exec();
 
@@ -350,6 +360,9 @@ app.post("/createList",  upload.single("thumbnail"), async(req,res)=> {
     })
   //console.log(req.file)
   //console.log("File: " + req.file);
+
+  // here we store the img for the list by changing its path to the desired one. 
+  // The final part of its path is the images new name.
   if (req.file) {
   const tempPath = req.file.path;
   const targetPath = `./public/images/${list.id}.png`;
